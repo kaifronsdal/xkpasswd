@@ -137,6 +137,9 @@ let xkpasswdInstance = null;
 // Track the previously selected preset to initialize CUSTOM
 let previousPreset = 'KAI_DEFAULT';
 
+// Debounce mechanism for rapid clicking
+let isGenerating = false;
+
 // Initialize XKPasswd library
 function initializeXkpasswd() {
   if (!xkpasswdInstance) {
@@ -344,14 +347,15 @@ function loadPresetValues(config) {
 
 // Auto-resize textarea based on content
 function autoResizeTextarea(textarea) {
-  // Reset height to minimum to get accurate scrollHeight
+  // Always reset height first to get accurate measurement
+  textarea.style.height = 'auto';
   textarea.style.height = '40px';
   
   // Calculate the required height
   const scrollHeight = textarea.scrollHeight;
   const minHeight = 40;
   
-  // Set the height to fit content (no max limit)
+  // Set the height to fit content exactly
   const newHeight = Math.max(minHeight, scrollHeight);
   textarea.style.height = newHeight + 'px';
 }
@@ -389,14 +393,15 @@ function createPasswordItem(password, index) {
 
 // Generate multiple passwords
 function generatePasswords() {
+  // Prevent rapid clicking
+  if (isGenerating) return;
+  isGenerating = true;
+  
   try {
     const numPasswords = parseInt(document.getElementById('numPasswords').value);
     const container = document.getElementById('passwordsContainer');
     
-    // Clear existing passwords
-    container.innerHTML = '';
-    
-    // Generate the requested number of passwords
+    // Generate the requested number of passwords first
     const passwords = [];
     let lastStats = null;
     
@@ -412,22 +417,50 @@ function generatePasswords() {
       }
     }
     
-    // Create DOM elements for each password
-    passwords.forEach((password, index) => {
-      const passwordItem = createPasswordItem(password, index);
-      container.appendChild(passwordItem);
-    });
+    // Get existing password items
+    const existingItems = container.querySelectorAll('.password-item');
+    const existingCount = existingItems.length;
+    
+    // Update existing items or create new ones
+    for (let i = 0; i < numPasswords; i++) {
+      if (i < existingCount) {
+        // Update existing password item
+        const existingItem = existingItems[i];
+        const textarea = existingItem.querySelector('.password-textarea');
+        const copyBtn = existingItem.querySelector('.copy-icon');
+        
+        textarea.value = passwords[i];
+        textarea.setAttribute('data-index', i);
+        copyBtn.setAttribute('data-index', i);
+        
+        // Auto-resize the updated textarea immediately
+        autoResizeTextarea(textarea);
+      } else {
+        // Create new password item
+        const passwordItem = createPasswordItem(passwords[i], i);
+        container.appendChild(passwordItem);
+      }
+    }
+    
+    // Remove extra items if we have fewer passwords now
+    for (let i = existingCount - 1; i >= numPasswords; i--) {
+      existingItems[i].remove();
+    }
     
     // Update statistics with the last generated password
     if (lastStats && passwords.length > 0) {
       updateStatistics(passwords[passwords.length - 1], lastStats);
     }
     
-    
   } catch (error) {
     console.error('Failed to generate passwords:', error);
     const container = document.getElementById('passwordsContainer');
     container.innerHTML = '<div class="password-item"><textarea class="password-textarea" readonly>Error: Failed to generate passwords</textarea></div>';
+  } finally {
+    // Reset the generation flag after a short delay
+    setTimeout(() => {
+      isGenerating = false;
+    }, 100);
   }
 }
 

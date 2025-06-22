@@ -10,18 +10,29 @@
   ],
   
   "browser_action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/popup/popup.html",
     "default_title": "Generate Password",
     "default_icon": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
-    }
-  },
-  
-  "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png", 
-    "128": "icon128.png"
+      "16": "assets/icons/icon16.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    },
+    "theme_icons": [
+      {
+        "light": "assets/icons/icon16-dark.png",
+        "dark": "assets/icons/icon16.png",
+        "size": 16
+      },
+      {
+        "light": "assets/icons/icon48-dark.png", 
+        "dark": "assets/icons/icon48.png",
+        "size": 48
+      },
+      {
+        "light": "assets/icons/icon128-dark.png",
+        "dark": "assets/icons/icon128.png", 
+        "size": 128
+      }
+    ]
   }
 }

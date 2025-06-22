@@ -1,7 +1,6 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
   entry: './src/extension.js',
   output: {
     filename: 'popup-bundle.js',
@@ -16,5 +15,6 @@ module.exports = {
       "fs": false,
       "path": false
     }
-  }
+  },
+  devtool: 'source-map'
 };

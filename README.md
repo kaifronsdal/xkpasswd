@@ -37,13 +37,12 @@ A Firefox browser extension for generating secure, memorable passwords using the
 5. Select the `manifest.json` file from this directory
 
 #### Development Workflow
-- Use `npm run watch` for automatic rebuilding during development
+- Use `npm run dev` to clean and start watching for changes
+- Use `npm run watch` for automatic rebuilding during development  
+- Use `npm run build:dev` for development builds with source maps
 - Use `npm run build` for production builds
 
-#### Note
-The extension references icon files (`icon16.png`, `icon48.png`, `icon128.png`) in the manifest that are not included in this repository. You can either:
-- Create your own icons at those sizes
-- Remove the icon references from `manifest.json` (Firefox will use default icons)
+For detailed development information, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Usage
 
@@ -72,12 +71,23 @@ This ensures you get the same high-quality, secure passwords as the official xkp
 
 ## Project Structure
 
-- `manifest.json` - Firefox extension manifest and configuration
-- `popup.html` - Extension popup interface  
-- `popup.js` - Extension UI logic and password generation coordination
-- `src/extension.js` - Entry point that imports and exposes the XKPasswd library
-- `webpack.config.js` - Build configuration for bundling the extension
-- `dist/popup-bundle.js` - Built bundle containing the XKPasswd library (generated)
+```
+xkpasswd/
+├── src/
+│   ├── popup/
+│   │   ├── popup.html      # Main popup interface
+│   │   └── popup.js        # Popup logic and functionality
+│   └── extension.js        # Entry point for webpack bundling
+├── assets/
+│   ├── icons/              # Extension icons
+│   └── styles/
+│       └── popup.css       # Popup styling
+├── dist/                   # Generated build output
+├── manifest.json           # Extension manifest
+├── package.json            # NPM configuration
+├── webpack.config.js       # Build configuration
+└── DEVELOPMENT.md          # Development guide
+```
 
 ## Permissions
 
