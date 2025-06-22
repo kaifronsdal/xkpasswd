@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "XKPasswd Generator",
+  "version": "1.0",
+  "description": "Generate secure passwords using xkpasswd algorithm",
+  
+  "permissions": [
+    "activeTab",
+    "clipboardWrite"
+  ],
+  
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Generate Password",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png", 
+    "128": "icon128.png"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "xkpasswd-firefox-extension",
+  "version": "1.0.0",
+  "description": "Firefox browser extension for generating secure, memorable passwords using the XKPasswd algorithm",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "keywords": ["firefox", "extension", "password", "generator", "xkpasswd", "security"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "xkpasswdjs": "github:bartificer/xkpasswd-js"
+  }
+}
